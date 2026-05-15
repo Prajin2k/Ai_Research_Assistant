@@ -1,0 +1,99 @@
+body {
+  background: #070b1a;
+}
+
+.auth-wrapper {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(124, 58, 237, 0.3), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(34, 211, 238, 0.15), transparent 30%),
+    #070b1a;
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 30px;
+  overflow: hidden;
+}
+.left-side {
+  background: linear-gradient(135deg, #0f172a, #140f2d);
+  min-height: 700px;
+}
+
+.logo-box {
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 32px;
+}
+.brand-heading {
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.brand-heading span {
+  color: #8b5cf6;
+}
+
+.brand-text {
+  color: #cbd5e1;
+  line-height: 1.8;
+}
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+}
+
+.form-control {
+  height: 55px;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: white !important;
+}
+
+.form-control::placeholder {
+  color: #94a3b8;
+}
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.25);
+  border-color: #8b5cf6;
+}
+
+.auth-btn {
+  height: 55px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: white;
+  font-weight: 600;
+}
+
+.auth-btn:hover {
+  opacity: 0.9;
+}
+.role-box {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.role-box.active {
+  border-color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.12);
+}
+
+@media(max-width:992px){
+  .left-side {
+    display:none;
+  }
+}
