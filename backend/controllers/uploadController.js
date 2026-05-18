@@ -60,6 +60,7 @@ export const uploadPDF = async (
       extractedText,
 
       fileType,
+      user: req.user._id,
     });
 
     res.status(201).json({

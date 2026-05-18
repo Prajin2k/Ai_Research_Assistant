@@ -6,6 +6,9 @@ import axios from "axios";
 import { useParams }
 from "react-router-dom";
 
+import ReactMarkdown
+from "react-markdown";
+
 function SummaryPage() {
 
   const { id } = useParams();
@@ -14,69 +17,79 @@ function SummaryPage() {
     useState("");
 
   const [loading, setLoading] =
-    useState(false);
-
+    useState(true);
 
   // FETCH SUMMARY
-  const generateSummary = async () => {
-
-    try {
-
-      setLoading(true);
-
-      const response = await axios.get(
-
-        `http://localhost:5000/api/ai/summary/${id}`
-      );
-
-      setSummary(
-        response.data.summary
-      );
-
-      setLoading(false);
-
-    } catch (error) {
-
-      console.log(error);
-
-      setLoading(false);
-    }
-  };
-
 
   useEffect(() => {
 
-    generateSummary();
+    const fetchSummary =
+      async () => {
 
-  }, []);
+        try {
 
+          const response =
+            await axios.get(
+              `http://localhost:5000/api/ai/summary/${id}`
+            );
+
+          setSummary(
+            response.data.summary
+          );
+
+          setLoading(false);
+
+        } catch (error) {
+
+          console.log(error);
+
+          setLoading(false);
+        }
+      };
+
+    fetchSummary();
+
+  }, [id]);
 
   return (
-    <div>
 
-      <h1 className="mb-4">
+    <div className="container py-4">
+
+      <h2 className="fw-bold mb-4">
+
         AI Summary
-      </h1>
+
+      </h2>
 
       {loading ? (
 
-        <h4>Generating Summary...</h4>
+        <h5>Generating Summary...</h5>
 
       ) : (
 
-        <div className="card shadow border-0">
+        <div
+          className="shadow border-0 p-4"
+         style={{
+  borderRadius: "20px",
 
-          <div className="card-body">
+  background:
+    "rgba(255,255,255,0.08)",
 
-            <p
-              style={{
-                whiteSpace: "pre-wrap",
-              }}
-            >
-              <ReactMarkdown> {summary}</ReactMarkdown>
-            </p>
+  backdropFilter:
+    "blur(12px)",
 
-          </div>
+  color: "white",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+}}
+        >
+
+          <ReactMarkdown>
+
+            {summary}
+
+          </ReactMarkdown>
 
         </div>
       )}

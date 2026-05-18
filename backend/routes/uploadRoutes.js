@@ -1,5 +1,5 @@
 import express from "express";
-
+import { protect,} from "../middleware/authMiddleware.js";
 import upload from "../middleware/uploadMiddleware.js";
 
 import {
@@ -11,7 +11,8 @@ const router = express.Router();
 
 // PDF UPLOAD
 router.post(
-  "/pdf",
+    "/pdf",
+    protect,
   upload.single("pdf"),
   uploadPDF
 );

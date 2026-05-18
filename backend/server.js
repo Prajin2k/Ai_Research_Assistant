@@ -19,7 +19,16 @@ connectDB();
 
 const app = express();
 
-app.use(helmet());
+app.use(
+  helmet({
+
+    contentSecurityPolicy: false,
+
+    crossOriginEmbedderPolicy: false,
+
+    crossOriginResourcePolicy: false,
+  })
+);
 app.use(morgan("combined"));
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -37,7 +46,29 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/quiz", quizRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/history", historyRoutes);
-app.use("/uploads", express.static("uploads"));
+app.use(
+  "/uploads",
+
+  express.static("uploads", {
+
+    setHeaders: (res, filePath) => {
+
+      if (filePath.endsWith(".pdf")) {
+
+        res.setHeader(
+          "Content-Type",
+          "application/pdf"
+        );
+
+        res.setHeader(
+          "Content-Disposition",
+          "inline"
+        );
+      }
+    },
+  })
+);
+
 // Routes
 
 app.use("/api/auth", authRoutes);

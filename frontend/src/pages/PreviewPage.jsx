@@ -1,3 +1,4 @@
+
 import { useEffect, useState }
 from "react";
 
@@ -22,9 +23,23 @@ function PreviewPage() {
 
       try {
 
+        const token =
+          localStorage.getItem(
+            "token"
+          );
+
         const response =
           await axios.get(
-            "http://localhost:5000/api/history"
+
+            "http://localhost:5000/api/history",
+
+            {
+              headers: {
+
+                Authorization:
+                  `Bearer ${token}`,
+              },
+            }
           );
 
         const selectedFile =
@@ -50,12 +65,20 @@ function PreviewPage() {
 
   if (loading) {
 
-    return <h3>Loading...</h3>;
+    return (
+      <h3 className="text-white">
+        Loading...
+      </h3>
+    );
   }
 
   if (!file) {
 
-    return <h3>File Not Found</h3>;
+    return (
+      <h3 className="text-white">
+        File Not Found
+      </h3>
+    );
   }
 
   return (
@@ -64,13 +87,19 @@ function PreviewPage() {
 
       <div className="mb-4">
 
-        <h2 className="fw-bold">
+        <h2
+          className="fw-bold text-white"
+        >
 
           File Preview
 
         </h2>
 
-        <p className="text-muted">
+        <p
+          style={{
+            color: "#cbd5e1",
+          }}
+        >
 
           {file.title}
 
@@ -78,28 +107,45 @@ function PreviewPage() {
 
       </div>
 
-      {/* PDF PREVIEW */}
-
       {file.fileType === "pdf" ? (
 
-        <iframe
-          src={`http://localhost:5000/${file.fileUrl}`}
+       <div className="text-center">
 
-          title="PDF Preview"
+  <a
+    href={`http://localhost:5000/${file.fileUrl}`}
 
-          width="100%"
+    target="_blank"
 
-          height="700px"
+    rel="noreferrer"
 
-          style={{
-            border: "none",
-            borderRadius: "10px",
-          }}
-        ></iframe>
+    className="btn"
+
+    style={{
+
+      background:
+        "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+      color: "white",
+
+      border: "none",
+
+      borderRadius: "12px",
+
+      padding: "14px 24px",
+
+      fontWeight: "600",
+
+      textDecoration: "none",
+    }}
+  >
+
+    Open PDF Preview
+
+  </a>
+
+</div>
 
       ) : (
-
-        /* IMAGE PREVIEW */
 
         <div className="text-center">
 
@@ -109,6 +155,11 @@ function PreviewPage() {
             alt={file.title}
 
             className="img-fluid rounded shadow"
+
+            style={{
+              maxHeight: "800px",
+              objectFit: "contain",
+            }}
           />
 
         </div>
@@ -119,3 +170,4 @@ function PreviewPage() {
 }
 
 export default PreviewPage;
+

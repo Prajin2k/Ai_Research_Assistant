@@ -1,12 +1,14 @@
-import { useEffect, useState }
-from "react";
-
+import { useEffect, useState } from "react";
+import {
+  useTheme,
+} from "../context/ThemeContext";
 import axios from "axios";
-
-import { useNavigate }
-from "react-router-dom";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function FilesPage() {
+  const { darkMode } =
+  useTheme();
 const deleteFile = async (id) => {
 
   const confirmDelete =
@@ -17,11 +19,21 @@ const deleteFile = async (id) => {
   if (!confirmDelete) return;
 
   try {
+const token =
+  localStorage.getItem("token");
 
-    await axios.delete(
+await axios.delete(
 
-      `http://localhost:5000/api/history/${id}`
-    );
+  `http://localhost:5000/api/history/${id}`,
+
+  {
+    headers: {
+
+      Authorization:
+        `Bearer ${token}`,
+    },
+  }
+);
 
     // REMOVE FROM UI
 
@@ -31,18 +43,19 @@ const deleteFile = async (id) => {
       )
     );
 
-    alert("File Deleted");
+    toast.success("File Deleted");
 
   } catch (error) {
 
     console.log(error);
 
-    alert("Delete Failed");
+    toast.error("Delete Failed");
   }
 };
   const [files, setFiles] =
     useState([]);
-
+    const [search, setSearch] =
+  useState("");
   const [loading, setLoading] =
     useState(true);
 
@@ -50,33 +63,57 @@ const deleteFile = async (id) => {
 
   // FETCH FILES
 
-  useEffect(() => {
+    useEffect(() => {
 
-    const fetchFiles = async () => {
+        const fetchFiles = async () => {
 
-      try {
+            try {
 
-        const response =
-          await axios.get(
-            "http://localhost:5000/api/history"
-          );
+                const token =
+                    localStorage.getItem(
+                        "token"
+                    );
 
-        setFiles(response.data);
+                console.log(token);
 
-        setLoading(false);
+                const response =
+                    await axios.get(
 
-      } catch (error) {
+                        "http://localhost:5000/api/history",
 
-        console.log(error);
+                        {
+                            headers: {
 
-        setLoading(false);
-      }
-    };
+                                Authorization:
+                                    `Bearer ${token}`,
+                            },
+                        }
+                    );
 
-    fetchFiles();
+                setFiles(response.data);
 
-  }, []);
+                setLoading(false);
 
+            } catch (error) {
+
+                console.log(
+                    error.response?.data
+                );
+
+                setLoading(false);
+            }
+        };
+        fetchFiles();
+    }, []);
+const filteredFiles =
+  files.filter((file) =>
+
+    file.title
+      .toLowerCase()
+      .includes(
+        search.toLowerCase()
+      )
+  );
   return (
 
     <div className="container-fluid">
@@ -89,13 +126,59 @@ const deleteFile = async (id) => {
 
         </h2>
 
-        <p className="text-muted">
+        <p style={{
+  color: darkMode
+  ? "#cbd5e1"
+  : "#475569",
+}}>
 
           View and interact with
           uploaded documents.
 
         </p>
+    {/* SEARCH BAR */}
 
+<div className="mb-4">
+
+  <input
+    type="text"
+
+    className="form-control"
+
+    placeholder="Search files..."
+
+    value={search}
+
+    onChange={(e) =>
+      setSearch(e.target.value)
+    }
+            style={{
+
+  background:
+    "rgba(255,255,255,0.08)",
+
+  color: "white",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+              borderRadius: "12px",
+  padding: "14px",
+}}
+  />
+
+              </div>
+              <p style={{
+ color: darkMode
+  ? "#cbd5e1"
+  : "#475569",
+}}>
+
+  Total Files:
+  {" "}
+  {filteredFiles.length}
+
+</p>
       </div>
 
       {loading ? (
@@ -106,37 +189,148 @@ const deleteFile = async (id) => {
 
         <div className="row">
 
-          {files.map((file) => (
+          {filteredFiles.map((file) => (
 
             <div
-              className="col-md-4 mb-4"
+             className="col-lg-4 col-md-6 mb-5"
               key={file._id}
             >
 
               <div
-                className="card shadow border-0 h-100"
-                style={{
-                  borderRadius: "15px",
-                }}
-              >
+  className="border-0 shadow h-100"
+  style={{
 
-                <div className="card-body">
+  borderRadius: "20px",
+    minHeight:"520px",
+  background:
+    "rgba(255,255,255,0.08)",
 
-                  <h5 className="fw-bold">
+  backdropFilter:
+    "blur(12px)",
 
-                    {file.title}
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+ color: "white",
+
+  transition: "0.3s",
+
+    cursor: "pointer",
+  boxShadow:
+  "0 10px 30px rgba(0,0,0,0.25)",
+}}
+
+  onMouseEnter={(e) => {
+
+    e.currentTarget.style.transform =
+      "translateY(-8px) scale(1.02)";
+  }}
+
+  onMouseLeave={(e) => {
+
+    e.currentTarget.style.transform =
+      "translateY(0px) scale(1)";
+  }}
+>
+                
+
+               <div
+                  className="card-body"
+                  style={{
+                    padding: "24px",
+                  }}
+>
+                    {/* FILE PREVIEW */}
+
+<div className="text-center mb-3">
+
+  {file.fileType === "image" ? (
+
+    <img
+  src={`http://localhost:5000/${file.fileUrl}`}
+
+  alt={file.title}
+
+  className="img-fluid rounded"
+
+  style={{
+    height: "180px",
+    objectFit: "cover",
+    width: "100%",
+  }}
+
+    />
+
+  ) : (
+
+    <div
+      className="d-flex justify-content-center align-items-center rounded"
+      style={{
+
+  height: "180px",
+
+  background:
+    "rgba(255,255,255,0.06)",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+}}
+    >
+
+      <h1
+        style={{
+          fontSize: "70px",
+        }}
+      >
+
+        📄
+
+      </h1>
+
+    </div>
+  )}
+
+</div>
+                <h5
+  className="fw-bold"
+  style={{
+    fontSize: "1.6rem",
+    marginBottom: "12px",
+    lineHeight: "1.3",
+  }}
+>
+
+                    {file.title.length > 22
+
+  ? file.title.slice(0, 22) + "..."
+
+  : file.title}
 
                   </h5>
 
-                  <p className="text-muted">
+                  <p
+  style={{
+    color: darkMode
+      ? "#cbd5e1"
+      : "#475569",
+
+    fontSize: "1rem",
+
+    marginBottom: "14px",
+  }}
+>
 
                     {file.fileType}
-
+                   
                   </p>
 
                   <p
                     style={{
-                      fontSize: "14px",
+                      fontSize: "1rem",
+
+color: "#94a3b8",
+
+marginBottom: "22px",
                     }}
                   >
 
@@ -150,16 +344,33 @@ const deleteFile = async (id) => {
 
                   {/* ACTION BUTTONS */}
 
-                  <div className="d-flex gap-2 mt-3">
+                  <div className="d-flex flex-wrap"
+                 style={{
+  gap: "12px",
+}} >
 
                     <button
-                      className="btn btn-primary btn-sm"
+                      className="btn btn-sm"
 
                       onClick={() =>
                         navigate(
                           `/summary/${file._id}`
                         )
                       }
+                      style={{
+
+  background:
+    "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+  color: "white",
+
+  border: "none",
+
+  borderRadius: "10px",
+
+                        fontWeight: "600",
+  padding: "10px 18px",
+}}
                     >
 
                       Summary
@@ -167,13 +378,27 @@ const deleteFile = async (id) => {
                     </button>
 
                     <button
-                      className="btn btn-success btn-sm"
+                      className="btn btn-sm"
 
                       onClick={() =>
                         navigate(
                           `/quiz/${file._id}`
                         )
                       }
+                      style={{
+
+  background:
+    "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+  color: "white",
+
+  border: "none",
+
+  borderRadius: "10px",
+
+                        fontWeight: "600",
+  padding: "10px 18px",
+}}
                     >
 
                       Quiz
@@ -181,37 +406,80 @@ const deleteFile = async (id) => {
                     </button>
 
                     <button
-                      className="btn btn-dark btn-sm"
+                      
+                      className="btn btn-sm"
 
                       onClick={() =>
                         navigate(
                           `/chat/${file._id}`
                         )
                       }
+                      style={{
+
+  background:
+    "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+  color: "white",
+
+  border: "none",
+
+  borderRadius: "10px",
+
+                        fontWeight: "600",
+  padding: "10px 18px",
+}}
                     >
 
                       Chat
 
                     </button>
                     <button
-                        className="btn btn-danger btn-sm"
+                        className="btn btn-sm"
 
                         onClick={() =>
                             deleteFile(file._id)
                         }
+                      style={{
+
+  background:
+    "linear-gradient(90deg,#ef4444,#dc2626)",
+
+  color: "white",
+
+  border: "none",
+
+  borderRadius: "10px",
+
+                        fontWeight: "600",
+  padding: "10px 18px",
+}}
                         >
 
                         Delete
 
                               </button>
                               <button
-                            className="btn btn-secondary btn-sm"
+                            className="btn btn-sm"
 
                             onClick={() =>
                                 navigate(
                                 `/preview/${file._id}`
                                 )
                             }
+                      style={{
+
+  background:
+    "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+color: "white",
+
+  border: "none",
+
+  borderRadius: "10px",
+
+                        fontWeight: "600",
+  padding: "10px 18px",
+}}
                             >
 
                             Preview

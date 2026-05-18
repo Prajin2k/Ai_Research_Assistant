@@ -1,11 +1,13 @@
-import
-{ useEffect, useState }
+import { useEffect, useState }
 from "react";
 
 import axios from "axios";
 
 import { useParams }
 from "react-router-dom";
+
+import ReactMarkdown
+from "react-markdown";
 
 function QuizPage() {
 
@@ -15,70 +17,79 @@ function QuizPage() {
     useState("");
 
   const [loading, setLoading] =
-    useState(false);
+    useState(true);
 
-
-  // GENERATE QUIZ
-  const generateQuiz = async () => {
-
-    try {
-
-      setLoading(true);
-
-      const response = await axios.get(
-
-        `http://localhost:5000/api/quiz/${id}`
-      );
-
-      setQuiz(response.data.quiz);
-
-      setLoading(false);
-
-    } catch (error) {
-
-      console.log(error);
-
-      alert("Failed to generate quiz");
-
-      setLoading(false);
-    }
-  };
-
+  // FETCH QUIZ
 
   useEffect(() => {
 
-    generateQuiz();
+    const fetchQuiz =
+      async () => {
 
-  }, []);
+        try {
 
+          const response =
+            await axios.get(
+              `http://localhost:5000/api/quiz/${id}`
+            );
+
+          setQuiz(
+            response.data.quiz
+          );
+
+          setLoading(false);
+
+        } catch (error) {
+
+          console.log(error);
+
+          setLoading(false);
+        }
+      };
+
+    fetchQuiz();
+
+  }, [id]);
 
   return (
-    <div
-      style={{
-        padding: "20px",
-      }}
-    >
 
-      <h1>AI Quiz Generator</h1>
+    <div className="container py-4">
+
+      <h2 className="fw-bold mb-4">
+
+        AI Quiz
+
+      </h2>
 
       {loading ? (
 
-        <h4>Generating Quiz...</h4>
+        <h5>Generating Quiz...</h5>
 
       ) : (
 
         <div
+          className="shadow border-0 p-4"
           style={{
-            background: "#f4f4f4",
-            padding: "20px",
-            borderRadius: "10px",
-            whiteSpace: "pre-wrap",
-          }}
+  borderRadius: "20px",
+
+  background:
+    "rgba(255,255,255,0.08)",
+
+  backdropFilter:
+    "blur(12px)",
+
+  color: "white",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+}}
         >
 
-          <h2>Generated Quiz</h2>
+          <ReactMarkdown>
 
-          <p><ReactMarkdown>{quiz}</ReactMarkdown></p>
+            {quiz}
+
+          </ReactMarkdown>
 
         </div>
       )}

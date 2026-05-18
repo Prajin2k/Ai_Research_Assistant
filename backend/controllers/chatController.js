@@ -119,8 +119,19 @@ export const chatWithPDF = async (
             });
 
       await existingChat.save();
-      // GET CHAT HISTORY
+  
+    res.status(200).json({
+      answer,
+    });
 
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+    // GET CHAT HISTORY
 export const getChatHistory = async (
   req,
   res
@@ -143,19 +154,6 @@ export const getChatHistory = async (
     res.status(200).json(
       chat.messages
     );
-
-  } catch (error) {
-
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
-
-
-    res.status(200).json({
-      answer,
-    });
 
   } catch (error) {
 

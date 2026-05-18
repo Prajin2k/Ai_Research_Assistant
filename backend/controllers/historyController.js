@@ -10,9 +10,14 @@ export const getUploads = async (
   try {
 
     const uploads =
-      await Upload.find().sort({
-        createdAt: -1,
-      });
+  await Upload.find({
+
+    user: req.user._id,
+
+  }).sort({
+
+    createdAt: -1,
+  });
 
     res.status(200).json(
       uploads

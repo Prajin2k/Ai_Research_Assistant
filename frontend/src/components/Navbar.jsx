@@ -1,8 +1,10 @@
 import { Link, useNavigate }
 from "react-router-dom";
-
+import {
+  useTheme,
+} from "../context/ThemeContext";
 function Navbar() {
-
+  
   const navigate = useNavigate();
 
   const userInfo = JSON.parse(
@@ -16,14 +18,28 @@ function Navbar() {
     );
 
     navigate("/login");
+    window.location.reload();
   };
+  const {
+  darkMode,
+  setDarkMode,
+} = useTheme();
 
   return (
 
     <nav
       className="navbar navbar-expand-lg navbar-dark px-4"
       style={{
-        background: "#111827",
+        background:
+          "rgba(15,23,42,0.7)",
+
+        backdropFilter:
+          "blur(12px)",
+
+        borderRadius: "20px",
+
+        border:
+          "1px solid rgba(255,255,255,0.08)",
       }}
     >
 
@@ -36,13 +52,34 @@ function Navbar() {
           to="/dashboard"
         >
 
-          AI Assistant
+         <span
+  style={{
+
+    background:
+      "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+    WebkitBackgroundClip:
+      "text",
+
+    WebkitTextFillColor:
+      "transparent",
+  }}
+>
+
+  AI Assistant
+
+</span>
 
         </Link>
 
         {/* RIGHT SIDE */}
 
-        <div className="d-flex align-items-center">
+       <div
+  className="d-flex align-items-center"
+  style={{
+    gap: "18px",
+  }}
+>
 
           {!userInfo ? (
 
@@ -50,7 +87,20 @@ function Navbar() {
 
               <Link
                 to="/login"
-                className="btn btn-outline-light me-2"
+                className="btn me-2"
+                style={{
+
+  background:
+    "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+  color: "white",
+
+  border: "none",
+
+  borderRadius: "12px",
+
+  fontWeight: "600",
+}}
               >
 
                 Login
@@ -71,28 +121,58 @@ function Navbar() {
           ) : (
 
             <>
+  <span
+    className={`me-3 ${
+  darkMode
+    ? "text-white"
+    : "text-dark"
+}`}
+  >
 
-              <span
-                className="text-white me-3"
-              >
+    Welcome,
+    {" "}
+    {userInfo.name}
 
-                Welcome,
-                {" "}
-                {userInfo.name}
+  </span>
 
-              </span>
+  {/* DARK MODE BUTTON */}
 
-              <button
-                className="btn btn-danger"
+  <button
+    className="btn me-2"
 
-                onClick={logoutHandler}
-              >
+    onClick={() =>
+      setDarkMode(!darkMode)
+    }
+  >
 
-                Logout
+    Dark Mode
 
-              </button>
+  </button>
 
-            </>
+  {/* LOGOUT BUTTON */}
+
+  <button
+    className="btn"
+style={{
+
+  background:
+    "linear-gradient(90deg,#ef4444,#dc2626)",
+
+  color: "white",
+
+  border: "none",
+
+  borderRadius: "12px",
+
+  fontWeight: "600",
+}}
+    onClick={logoutHandler}
+  >
+
+    Logout
+
+  </button>
+</>
           )}
 
         </div>

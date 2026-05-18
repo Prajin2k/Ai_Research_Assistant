@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import { toast } from "react-toastify";
 import axios from "axios";
 
 function UploadPage() {
@@ -35,6 +35,9 @@ function UploadPage() {
 
       formData.append("pdf", pdf);
 
+      const token =
+        localStorage.getItem("token");
+
       const response = await axios.post(
 
         "http://localhost:5000/api/upload/pdf",
@@ -43,15 +46,19 @@ function UploadPage() {
 
         {
           headers: {
+
             "Content-Type":
               "multipart/form-data",
+
+            Authorization:
+              `Bearer ${token}`,
           },
         }
       );
 
       console.log(response.data);
 
-      alert(
+      toast.success(
         "File Uploaded Successfully"
       );
 
@@ -63,7 +70,7 @@ function UploadPage() {
 
       console.log(error);
 
-      alert("Upload Failed");
+      toast.error("Upload Failed");
 
       setLoading(false);
     }
@@ -74,21 +81,42 @@ function UploadPage() {
     <div className="container py-5">
 
       <div
-        className="card shadow-lg border-0 p-4"
+        className="shadow-lg border-0 p-4"
         style={{
-          maxWidth: "600px",
+
+          maxWidth: "650px",
+
           margin: "auto",
-          borderRadius: "20px",
+
+          borderRadius: "24px",
+
+          background:
+            "rgba(255,255,255,0.08)",
+
+          backdropFilter:
+            "blur(14px)",
+
+          border:
+            "1px solid rgba(255,255,255,0.08)",
+
+          color: "white",
+
+          boxShadow:
+            "0 8px 30px rgba(0,0,0,0.3)",
         }}
       >
 
-        <h2 className="mb-4 text-center">
+        <h2
+          className="text-center"
+          style={{
+            marginBottom: "30px",
+            fontWeight: "700",
+          }}
+        >
 
           Upload Study Material
 
         </h2>
-
-        {/* FILE INPUT */}
 
         <input
           type="file"
@@ -98,58 +126,101 @@ function UploadPage() {
           accept=".pdf,image/*"
 
           onChange={handleFileChange}
-        />
 
-        {/* FILE DETAILS */}
+          style={{
+
+            background:
+              "rgba(255,255,255,0.08)",
+
+            color: "white",
+
+            border:
+              "1px solid rgba(255,255,255,0.1)",
+
+            padding: "14px",
+
+            borderRadius: "12px",
+          }}
+        />
 
         {pdf && (
 
           <div
-            className="mt-3 p-3 bg-light rounded"
+            className="mt-4"
+            style={{
+
+              background:
+                "rgba(255,255,255,0.06)",
+
+              border:
+                "1px solid rgba(255,255,255,0.08)",
+
+              borderRadius: "14px",
+
+              padding: "20px",
+            }}
           >
 
-            <p className="mb-1">
+            <p
+              style={{
+                marginBottom: "10px",
+                fontWeight: "600",
+              }}
+            >
 
-              <strong>Selected File:</strong>
-
-            </p>
-
-            <p className="text-primary">
-
-              {pdf.name}
+              Selected File
 
             </p>
 
             <p
               style={{
-                fontSize: "14px",
-                color: "gray",
+                color: "#38bdf8",
+                fontWeight: "600",
+              }}
+            >
+
+              {pdf.name}
+
+            </p>
+
+            <small
+              style={{
+                color: "#cbd5e1",
               }}
             >
 
               Size:
               {" "}
-              (
-              {(
-                pdf.size /
-                1024 /
-                1024
-              ).toFixed(2)}
-              {" "}MB)
+              {(pdf.size / 1024 / 1024).toFixed(2)}
+              {" "}MB
 
-            </p>
+            </small>
 
           </div>
         )}
 
-        {/* UPLOAD BUTTON */}
-
         <button
-          className="btn btn-primary mt-4"
+          className="btn w-100 mt-4"
 
           onClick={handleUpload}
 
           disabled={loading}
+
+          style={{
+
+            background:
+              "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+            color: "white",
+
+            border: "none",
+
+            borderRadius: "12px",
+
+            fontWeight: "600",
+
+            padding: "14px",
+          }}
         >
 
           {loading
@@ -158,20 +229,21 @@ function UploadPage() {
 
         </button>
 
-        {/* LOADING */}
-
         {loading && (
 
-          <div
-            className="text-center mt-3"
-          >
+          <div className="text-center mt-4">
 
             <div
-              className="spinner-border text-primary"
+              className="spinner-border text-info"
               role="status"
             ></div>
 
-            <p className="mt-2">
+            <p
+              className="mt-3"
+              style={{
+                color: "#cbd5e1",
+              }}
+            >
 
               Processing File...
 
@@ -185,5 +257,4 @@ function UploadPage() {
     </div>
   );
 }
-
 export default UploadPage;

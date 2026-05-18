@@ -1,0 +1,32 @@
+:root {
+
+  --primary-bg: #0f172a;
+
+  --secondary-bg: #111827;
+
+  --card-bg: rgba(255,255,255,0.08);
+
+  --border-color: rgba(255,255,255,0.1);
+
+  --text-main: #ffffff;
+
+  --text-secondary: #9ca3af;
+
+  --accent: #38bdf8;
+
+  --accent-hover: #0ea5e9;
+}
+
+body {
+
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #111827
+  );
+
+  color: var(--text-main);
+
+  font-family: "Poppins",
+  sans-serif;
+}

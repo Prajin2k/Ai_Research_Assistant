@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from "react";
-
+import { toast } from "react-toastify";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { useParams } from "react-router-dom";
-
+import {
+  useTheme,
+} from "../context/ThemeContext";
 function ChatPage() {
-
+const { darkMode } =
+  useTheme();
   const { id } = useParams();
 
   const [question, setQuestion] =
@@ -51,7 +54,30 @@ useEffect(() => {
     });
 
   }, [messages]);
+const typeMessage = (
+  text,
+  callback
+) => {
 
+  let index = 0;
+
+  let currentText = "";
+
+  const interval = setInterval(() => {
+
+    currentText += text[index];
+
+    callback(currentText);
+
+    index++;
+
+    if (index >= text.length) {
+
+      clearInterval(interval);
+    }
+
+  }, 15);
+};
   // SEND QUESTION
 
   const sendQuestion = async () => {
@@ -99,13 +125,33 @@ useEffect(() => {
 
       const aiMessage = {
 
-        sender: "ai",
+  sender: "ai",
 
-        text: response.data.answer,
+  text: "",
 
-        time:
-          new Date().toLocaleTimeString(),
-      };
+  time:
+    new Date().toLocaleTimeString(),
+};
+
+// TYPE MESSAGE
+
+typeMessage(
+  response.data.answer,
+
+  (typedText) => {
+
+    setMessages((prev) => {
+
+      const updated = [...prev];
+
+      updated[
+        updated.length - 1
+      ].text = typedText;
+
+      return [...updated];
+    });
+  }
+);
 
       setMessages((prev) => [
         ...prev,
@@ -120,7 +166,7 @@ useEffect(() => {
 
       console.log(error);
 
-      alert("Chat Failed");
+      toast.error("Chat Failed");
 
       setLoading(false);
     }
@@ -137,11 +183,24 @@ useEffect(() => {
       {/* CHAT BOX */}
 
       <div
-        className="border rounded shadow-sm p-3 bg-light"
+        className="p-3"
         style={{
-          height: "500px",
-          overflowY: "auto",
-        }}
+
+  height: "500px",
+
+  overflowY: "auto",
+
+  background:
+    "rgba(255,255,255,0.08)",
+
+  backdropFilter:
+    "blur(12px)",
+
+  borderRadius: "20px",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+}}
       >
 
         {messages.map((msg, index) => (
@@ -165,13 +224,13 @@ useEffect(() => {
                 style={{
                   background:
                     msg.sender === "user"
-                      ? "#0d6efd"
-                      : "#ffffff",
+                     ? "linear-gradient(90deg,#38bdf8,#2563eb)"
+                      : "rgba(255,255,255,0.08)",
 
                   color:
                     msg.sender === "user"
                       ? "white"
-                      : "black",
+                     : "white",
 
                   padding: "12px",
 
@@ -214,7 +273,11 @@ useEffect(() => {
 
         {loading && (
 
-          <div className="text-muted">
+          <div style={{
+  color: darkMode
+  ? "#cbd5e1"
+  : "#475569",
+}}>
 
             AI is thinking...
 
@@ -232,33 +295,67 @@ useEffect(() => {
       <div className="d-flex mt-3">
 
         <input
-          type="text"
+  type="text"
 
-          className="form-control"
+  className="form-control"
 
-          placeholder="Ask a question..."
+  placeholder="Ask a question..."
 
-          value={question}
+  value={question}
 
-          onChange={(e) =>
-            setQuestion(e.target.value)
-          }
+  onChange={(e) =>
+    setQuestion(e.target.value)
+  }
 
-          onKeyDown={(e) => {
+  onKeyDown={(e) => {
 
-            if (e.key === "Enter") {
+    if (e.key === "Enter") {
 
-              sendQuestion();
-            }
-          }}
-        />
+      sendQuestion();
+    }
+  }}
+
+style={{
+
+  background:
+    "rgba(255,255,255,0.08)",
+
+  color: darkMode
+  ? "white"
+  : "#111827",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  borderRadius: "12px",
+
+  padding: "12px",
+}}
+/>
 
         <button
-          className="btn btn-primary ms-2"
+          className="btn ms-2"
 
           onClick={sendQuestion}
 
           disabled={loading}
+          style={{
+
+  background:
+    "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+  color: darkMode
+  ? "white"
+  : "#111827",
+
+  border: "none",
+
+  borderRadius: "12px",
+
+  fontWeight: "600",
+
+  padding: "10px 18px",
+}}
         >
 
           {loading

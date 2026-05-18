@@ -1,4 +1,5 @@
 import React from 'react';
+import { Navigate } from "react-router-dom";
 import { Routes, Route } from 'react-router-dom';
 import Dashboard from "../pages/Dashboard";
 import Login from '../pages/Login';
@@ -14,6 +15,23 @@ export default function AppRoutes() {
 
   return (
     <Routes>
+      <Route
+  path="/login"
+  element={<Login />}
+/>
+
+<Route
+  path="/register"
+  element={<Register />}
+/>
+      <Route
+  path="/"
+  element={
+    localStorage.getItem("userInfo")
+      ? <Navigate to="/dashboard" />
+      : <Navigate to="/login" />
+  }
+/>
       <Route
   path="/dashboard"
   element={
@@ -73,7 +91,8 @@ export default function AppRoutes() {
       <PreviewPage />
     </Layout>
   }
-/>
+      />
+      
     </Routes>
   );
 }

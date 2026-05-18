@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from "react-toastify";
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBrain } from 'react-icons/fa';
 import { loginUser } from "../services/authService";
@@ -31,14 +32,14 @@ export default function Login() {
     localStorage.setItem("token", data.token);
 
     localStorage.setItem(
-      "user",
+      "userInfo",
       JSON.stringify(data.user)
     );
 
-    alert("Login Successful");
+    toast.success("Login Successful");
 
     navigate("/dashboard");
-
+    window.location.reload();
   } catch (error) {
 
     alert(error.response.data.message);

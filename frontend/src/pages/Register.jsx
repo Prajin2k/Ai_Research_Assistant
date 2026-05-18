@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBrain } from 'react-icons/fa';
+import { toast } from "react-toastify";
 import { registerUser } from "../services/authService";
 export default function Register() {
 
@@ -38,18 +39,28 @@ export default function Register() {
   e.preventDefault();
 
   try {
+    if (
+  formData.password !==
+  formData.confirmPassword
+) {
 
+  toast.error(
+    "Passwords do not match"
+  );
+
+  return;
+}
     const data = await registerUser(formData);
 
     console.log(data);
 
-    alert("Registration Successful");
+    toast.success("Registration Successful");
 
     navigate("/login");
 
   } catch (error) {
 
-    alert(error.response.data.message);
+    toast.error(error.response.data.message);
   }
 };
 
