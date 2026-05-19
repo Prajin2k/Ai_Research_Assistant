@@ -12,6 +12,14 @@ import helmet from "helmet";
 import morgan from "morgan";
 import rateLimit from "express-rate-limit";
 import path from "path";
+import flashcardRoutes
+  from "./routes/flashcardRoutes.js";
+import quizResultRoutes
+  from "./routes/quizResultRoutes.js";
+  import translationRoutes
+from "./routes/translationRoutes.js";
+import quizAutomationRoutes
+from "./routes/quizAutomationRoutes.js";
 import errorHandler from "./middleware/errorMiddleware.js";
 dotenv.config();
 
@@ -44,8 +52,25 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/quiz", quizRoutes);
+app.use(
+
+  "/api/quiz-results",
+
+  quizResultRoutes
+);
+app.use(
+
+  "/api/quiz-automation",
+
+  quizAutomationRoutes
+);
+app.use(
+  "/api/ai",
+  translationRoutes
+);
 app.use("/api/chat", chatRoutes);
 app.use("/api/history", historyRoutes);
+app.use("/api/flashcards", flashcardRoutes);
 app.use(
   "/uploads",
 

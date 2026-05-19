@@ -7,14 +7,12 @@ export default function Register() {
 
   const navigate = useNavigate();
 
-  const [selectedRole, setSelectedRole] = useState('student');
 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'student',
   });
 
   const handleChange = (e) => {
@@ -24,15 +22,7 @@ export default function Register() {
     });
   };
 
-  const handleRole = (role) => {
-
-    setSelectedRole(role);
-
-    setFormData({
-      ...formData,
-      role,
-    });
-  };
+  
 
   const handleSubmit = async (e) => {
 
@@ -106,7 +96,24 @@ export default function Register() {
 
           {/* RIGHT SIDE */}
 
-          <div className="col-lg-6 bg-dark text-white p-5 d-flex flex-column justify-content-center">
+          <div
+
+  className="col-lg-6 text-white p-5 d-flex flex-column justify-content-center"
+
+  style={{
+
+    background:
+      "rgba(15,23,42,0.72)",
+
+    backdropFilter:
+      "blur(18px)",
+
+    borderLeft:
+      "1px solid rgba(255,255,255,0.08)",
+
+    position: "relative",
+  }}
+>
 
             <h2 className="fw-bold display-6 mb-2">
               Create Account 🚀
@@ -131,6 +138,23 @@ export default function Register() {
                   placeholder="Enter your name"
                   value={formData.name}
                   onChange={handleChange}
+                  style={{
+
+  background:
+    "rgba(255,255,255,0.06)",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  color: "white",
+
+  padding: "14px",
+
+  borderRadius: "14px",
+
+  boxShadow:
+    "none",
+}}
                 />
 
               </div>
@@ -148,6 +172,23 @@ export default function Register() {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
+                  style={{
+
+  background:
+    "rgba(255,255,255,0.06)",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  color: "white",
+
+  padding: "14px",
+
+  borderRadius: "14px",
+
+  boxShadow:
+    "none",
+}}
                 />
 
               </div>
@@ -165,6 +206,23 @@ export default function Register() {
                   placeholder="Create password"
                   value={formData.password}
                   onChange={handleChange}
+                  style={{
+
+  background:
+    "rgba(255,255,255,0.06)",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  color: "white",
+
+  padding: "14px",
+
+  borderRadius: "14px",
+
+  boxShadow:
+    "none",
+}}
                 />
 
               </div>
@@ -182,57 +240,51 @@ export default function Register() {
                   placeholder="Confirm password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
+                  style={{
+
+  background:
+    "rgba(255,255,255,0.06)",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  color: "white",
+
+  padding: "14px",
+
+  borderRadius: "14px",
+
+  boxShadow:
+    "none",
+}}
                 />
 
               </div>
 
-              {/* ROLE SELECTION */}
-
-              <div className="row g-3 mb-4">
-
-                <div className="col-6">
-
-                  <div
-                    className={`role-box p-3 ${
-                      selectedRole === 'student' ? 'active' : ''
-                    }`}
-                    onClick={() => handleRole('student')}
-                  >
-
-                    <h5>Student</h5>
-
-                    <small className="text-secondary">
-                      Access AI learning tools
-                    </small>
-
-                  </div>
-
-                </div>
-
-                <div className="col-6">
-
-                  <div
-                    className={`role-box p-3 ${
-                      selectedRole === 'admin' ? 'active' : ''
-                    }`}
-                    onClick={() => handleRole('admin')}
-                  >
-
-                    <h5>Admin</h5>
-
-                    <small className="text-secondary">
-                      Manage platform analytics
-                    </small>
-
-                  </div>
-
-                </div>
-
-              </div>
 
               <button
                 type="submit"
                 className="auth-btn w-100"
+                style={{
+
+  background:
+    "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+  border: "none",
+
+  borderRadius: "14px",
+
+  padding: "14px",
+
+  fontWeight: "700",
+
+  color: "white",
+
+  boxShadow:
+    "0 0 25px rgba(56,189,248,0.3)",
+
+  transition: "0.3s",
+}}
               >
                 Register
               </button>

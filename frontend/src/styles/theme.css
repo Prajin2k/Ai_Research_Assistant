@@ -30,3 +30,25 @@ body {
   font-family: "Poppins",
   sans-serif;
 }
+@media (max-width: 768px) {
+
+  .card-body {
+
+    padding: 18px !important;
+  }
+
+  h1 {
+
+    font-size: 2rem !important;
+  }
+
+  h2 {
+
+    font-size: 1.5rem !important;
+  }
+
+  .btn {
+
+    width: 100%;
+  }
+}

@@ -1,5 +1,4 @@
 import { useEffect, useState }from "react";
-import {  useTheme,} from "../context/ThemeContext";
 import axios from "axios";
 
 import { useNavigate }from "react-router-dom";
@@ -7,7 +6,6 @@ import { useNavigate }from "react-router-dom";
 function Dashboard() {
 
   const navigate = useNavigate();
-  const { darkMode } =useTheme();
   const [files, setFiles] =
     useState([]);
 
@@ -54,13 +52,13 @@ const response =
   const features = [
 
     {
-      title: "Upload Files",
+      title: "AI Flashcards",
 
       count: files.length,
 
       color: "primary",
 
-      path: "/upload",
+     path: "/select-file/flashcards",
     },
 
     {
@@ -70,7 +68,7 @@ const response =
 
       color: "success",
 
-      path: "/files",
+      path: "/select-file/summary",
     },
 
     {
@@ -80,7 +78,7 @@ const response =
 
       color: "warning",
 
-      path: "/files",
+      path: "/select-file/quiz",
     },
 
     {
@@ -90,19 +88,24 @@ const response =
 
       color: "dark",
 
-      path: "/files",
+      path: "/select-file/chat",
     },
   ];
 
   return (
 
-    <div className="container-fluid">
+    <div className="container-fluid px-lg-4 px-2">
 
       {/* HEADER */}
 
       <div className="mb-4">
 
-        <h1 className="fw-bold">
+      <h1
+  className="fw-bold"
+  style={{
+    fontSize: "clamp(2rem,5vw,3.2rem)",
+  }}
+>
 
           AI Research Assistant
 
@@ -110,9 +113,7 @@ const response =
 
         <p
   style={{
-    color: darkMode
-      ? "#d1d5db"
-      : "#6b7280",
+    color: "#d1d5db",
   }}
 >
 
@@ -130,7 +131,7 @@ const response =
         {features.map((item, index) => (
 
           <div
-            className="col-md-3 mb-4"
+            className="col-12 col-sm-6 col-lg-3 mb-4"
             key={index}
           >
 
@@ -177,14 +178,14 @@ onMouseLeave={(e) => {
               <div
   className="card-body d-flex flex-column justify-content-center"
   style={{
-    height: "140px",
+    minHeight: "170px",
     padding: "28px",
   }}
 >
 
                 <h5
   style={{
-    fontSize: "1.2rem",
+    fontSize: "clamp(1rem,2vw,1.2rem)",
     fontWeight: "600",
     marginBottom: "16px",
   }}
@@ -193,18 +194,28 @@ onMouseLeave={(e) => {
                   {item.title}
 
                 </h5>
-
-                <h2
-  className="fw-bold"
+              <p
   style={{
-    fontSize: "3rem",
-    lineHeight: "1",
+    color: "#cbd5e1",
+    fontSize: "clamp(0.9rem,2vw,1rem)",
+    fontWeight: "500",
+    lineHeight: "1.6",
   }}
 >
 
-                  {item.count}
+  {item.title === "AI Flashcards" &&
+    "Revise concepts with AI flashcards"}
 
-                </h2>
+  {item.title === "AI Summary" &&
+    "Generate smart AI-powered summaries"}
+
+  {item.title === "AI Quiz" &&
+    "Practice with interactive quizzes"}
+
+  {item.title === "AI Chat" &&
+    "Chat intelligently with documents"}
+
+</p>
 
               </div>
 
@@ -221,7 +232,8 @@ onMouseLeave={(e) => {
         className="border-0 shadow"
         style={{
 
-  background:"rgba(14, 98, 233, 0.95)",
+ background:
+  "rgba(30,41,59,0.95)",
 
 
   backdropFilter:
@@ -229,35 +241,44 @@ onMouseLeave={(e) => {
 boxShadow:
   "0 10px 35px rgba(0,0,0,0.35)",
   borderRadius: "20px",
-
+overflow: "hidden",
   color:"white",    
 
   border:
    "1px solid rgba(255,255,255,0.12)",
 
   boxShadow:
-    "0 8px 25px rgba(0,0,0,0.08)",
+  "0 10px 35px rgba(0,0,0,0.35)",
 }}
       >
 
         <div
   className="card-body"
   style={{
-    padding: "36px",
+    padding: "clamp(18px,4vw,36px)",
   }}
 >
 
         <h4
-  className="fw-bold"
+  className="fw-bold mb-4"
   style={{
-    fontSize: "2rem",
-    marginBottom: "30px",
+
+    fontSize: "clamp(1.4rem,4vw,2rem)",
+
+    background:
+      "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+    WebkitBackgroundClip:
+      "text",
+
+    WebkitTextFillColor:
+      "transparent",
   }}
 >
 
-            Recent Uploads
+  Recent Uploads
 
-          </h4>
+</h4>
 
           {recentFiles.length === 0 ? (
 
@@ -268,7 +289,7 @@ boxShadow:
             recentFiles.map((file) => (
 
               <div
-  className="d-flex justify-content-between align-items-center"
+  className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3"
   style={{
     padding: "24px 10px",
 
@@ -287,7 +308,7 @@ boxShadow:
 
                  <h6
   style={{
-    fontSize: "1.4rem",
+    fontSize: "clamp(1rem,3vw,1.4rem)",
     fontWeight: "600",
     marginBottom: "6px",
   }}
@@ -315,23 +336,43 @@ boxShadow:
                   style={{
 
   background:
-    "linear-gradient(90deg,#38bdf8,#2563eb)",
+    "rgba(15,23,42,0.85)",
 
-                    color: "white",
+  color: "#38bdf8",
 
-  border: "none",
+  border:
+    "1px solid rgba(56,189,248,0.25)",
 
-  borderRadius: "10px",
+  borderRadius: "12px",
 
   fontWeight: "600",
 
- padding: "10px 22px",
+  padding: "8px 18px",
+
+  transition: "0.3s",
+                  }}
+                  onMouseEnter={(e) => {
+
+  e.currentTarget.style.background =
+    "#2563eb";
+
+  e.currentTarget.style.color =
+    "white";
+}}
+
+onMouseLeave={(e) => {
+
+  e.currentTarget.style.background =
+    "rgba(15,23,42,0.85)";
+
+  e.currentTarget.style.color =
+    "#38bdf8";
 }}
 
                   onClick={() =>
-                    navigate(
-                      `/preview/${file._id}`
-                    )
+                   navigate(
+  `/file/${file._id}`
+)
                   }
                 >
 

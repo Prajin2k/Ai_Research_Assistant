@@ -116,11 +116,54 @@ const filteredFiles =
   );
   return (
 
-    <div className="container-fluid">
+    <div className="container-fluid px-lg-4 px-2">
+<button
+  className="btn mb-4"
 
+  onClick={() =>
+    navigate(-1)
+  }
+
+  style={{
+
+    background:
+      "#1e293b",
+
+    color: "white",
+
+    border:
+      "1px solid rgba(255,255,255,0.12)",
+
+    borderRadius: "10px",
+
+    padding: "10px 18px",
+
+    fontWeight: "600",
+  }}
+>
+
+  ← Back
+
+</button>
       <div className="mb-4">
 
-        <h2 className="fw-bold">
+        <h2
+  className="fw-bold"
+  style={{
+
+    fontSize:
+      "clamp(2rem,5vw,3rem)",
+
+    background:
+      "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+    WebkitBackgroundClip:
+      "text",
+
+    WebkitTextFillColor:
+      "transparent",
+  }}
+>
 
           Uploaded Files
 
@@ -198,10 +241,20 @@ const filteredFiles =
 
               <div
   className="border-0 shadow h-100"
+
+  onClick={() =>
+    navigate(`/file/${file._id}`)
+  }
   style={{
 
   borderRadius: "20px",
-    minHeight:"520px",
+    minHeight: "460px",
+    overflow: "hidden",
+
+position: "relative",
+
+transition:
+  "all 0.35s ease",
   background:
     "rgba(255,255,255,0.08)",
 
@@ -222,15 +275,27 @@ const filteredFiles =
 
   onMouseEnter={(e) => {
 
-    e.currentTarget.style.transform =
-      "translateY(-8px) scale(1.02)";
-  }}
+  e.currentTarget.style.transform =
+    "translateY(-10px)";
 
-  onMouseLeave={(e) => {
+  e.currentTarget.style.boxShadow =
+    "0 20px 40px rgba(37,99,235,0.25)";
 
-    e.currentTarget.style.transform =
-      "translateY(0px) scale(1)";
-  }}
+  e.currentTarget.style.border =
+    "1px solid rgba(56,189,248,0.4)";
+}}
+
+onMouseLeave={(e) => {
+
+  e.currentTarget.style.transform =
+    "translateY(0px)";
+
+  e.currentTarget.style.boxShadow =
+    "0 10px 30px rgba(0,0,0,0.25)";
+
+  e.currentTarget.style.border =
+    "1px solid rgba(255,255,255,0.08)";
+}}
 >
                 
 
@@ -294,7 +359,11 @@ const filteredFiles =
                 <h5
   className="fw-bold"
   style={{
-    fontSize: "1.6rem",
+    fontSize: "1.35rem",
+
+fontWeight: "700",
+
+minHeight: "60px",
     marginBottom: "12px",
     lineHeight: "1.3",
   }}
@@ -308,21 +377,40 @@ const filteredFiles =
 
                   </h5>
 
-                  <p
-  style={{
-    color: darkMode
-      ? "#cbd5e1"
-      : "#475569",
+                  <div className="mb-3">
 
-    fontSize: "1rem",
+  <span
+    style={{
 
-    marginBottom: "14px",
-  }}
->
+      background:
+        file.fileType === "pdf"
 
-                    {file.fileType}
-                   
-                  </p>
+          ? "rgba(239,68,68,0.2)"
+
+          : "rgba(34,197,94,0.2)",
+
+      color:
+        file.fileType === "pdf"
+
+          ? "#f87171"
+
+          : "#4ade80",
+
+      padding: "6px 14px",
+
+      borderRadius: "30px",
+
+      fontSize: "0.85rem",
+
+      fontWeight: "600",
+    }}
+  >
+
+    {file.fileType.toUpperCase()}
+
+  </span>
+
+</div>
 
                   <p
                     style={{
@@ -349,96 +437,16 @@ marginBottom: "22px",
   gap: "12px",
 }} >
 
-                    <button
-                      className="btn btn-sm"
-
-                      onClick={() =>
-                        navigate(
-                          `/summary/${file._id}`
-                        )
-                      }
-                      style={{
-
-  background:
-    "linear-gradient(90deg,#38bdf8,#2563eb)",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "10px",
-
-                        fontWeight: "600",
-  padding: "10px 18px",
-}}
-                    >
-
-                      Summary
-
-                    </button>
-
-                    <button
-                      className="btn btn-sm"
-
-                      onClick={() =>
-                        navigate(
-                          `/quiz/${file._id}`
-                        )
-                      }
-                      style={{
-
-  background:
-    "linear-gradient(90deg,#38bdf8,#2563eb)",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "10px",
-
-                        fontWeight: "600",
-  padding: "10px 18px",
-}}
-                    >
-
-                      Quiz
-
-                    </button>
-
-                    <button
-                      
-                      className="btn btn-sm"
-
-                      onClick={() =>
-                        navigate(
-                          `/chat/${file._id}`
-                        )
-                      }
-                      style={{
-
-  background:
-    "linear-gradient(90deg,#38bdf8,#2563eb)",
-
-  color: "white",
-
-  border: "none",
-
-  borderRadius: "10px",
-
-                        fontWeight: "600",
-  padding: "10px 18px",
-}}
-                    >
-
-                      Chat
-
-                    </button>
+                   
                     <button
                         className="btn btn-sm"
 
-                        onClick={() =>
-                            deleteFile(file._id)
-                        }
+                        onClick={(e) => {
+
+  e.stopPropagation();
+
+  deleteFile(file._id);
+}}
                       style={{
 
   background:
@@ -451,7 +459,9 @@ marginBottom: "22px",
   borderRadius: "10px",
 
                         fontWeight: "600",
-  padding: "10px 18px",
+  padding: "12px 18px",
+
+width: "100%",
 }}
                         >
 
@@ -461,24 +471,32 @@ marginBottom: "22px",
                               <button
                             className="btn btn-sm"
 
-                            onClick={() =>
-                                navigate(
-                                `/preview/${file._id}`
-                                )
-                            }
+                           onClick={(e) => {
+
+  e.stopPropagation();
+
+  navigate(
+    `/preview/${file._id}`
+  );
+}}
                       style={{
 
   background:
     "linear-gradient(90deg,#38bdf8,#2563eb)",
 
-color: "white",
+  color: "white",
 
   border: "none",
 
-  borderRadius: "10px",
+  borderRadius: "14px",
 
-                        fontWeight: "600",
-  padding: "10px 18px",
+  fontWeight: "700",
+
+  padding: "12px 18px",
+
+  width: "100%",
+
+  transition: "0.3s",
 }}
                             >
 

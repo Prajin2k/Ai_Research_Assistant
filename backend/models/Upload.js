@@ -25,7 +25,10 @@ const uploadSchema = new mongoose.Schema(
 
       default: "",
     },
-
+    aiNotes: {
+  type: String,
+  default: "",
+},
     fileType: {
 
       type: String,
@@ -40,7 +43,17 @@ const uploadSchema = new mongoose.Schema(
       type: String,
 
       default: "",
-        },
+    },
+    flashcards: [
+
+  {
+
+    question: String,
+
+    answer: String,
+
+  },
+],
     user: {
 
   type:

@@ -1,5 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { toast } from "react-toastify";
+import {
+  FaPaperPlane,
+} from "react-icons/fa";
+import {
+  FaMicrophone,
+} from "react-icons/fa";
+import { useNavigate }
+from "react-router-dom";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { useParams } from "react-router-dom";
@@ -13,7 +21,11 @@ const { darkMode } =
 
   const [question, setQuestion] =
     useState("");
-
+  const [listening,
+setListening] =
+  useState(false);
+  const navigate =
+  useNavigate();
   const [messages, setMessages] =
     useState([]);
 
@@ -171,11 +183,86 @@ typeMessage(
       setLoading(false);
     }
   };
+const startListening = () => {
 
+  const SpeechRecognition =
+
+    window.SpeechRecognition ||
+
+    window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+
+    alert(
+      "Speech Recognition not supported"
+    );
+
+    return;
+  }
+
+  const recognition =
+    new SpeechRecognition();
+
+  recognition.lang = "en-US";
+
+  recognition.start();
+
+  setListening(true);
+
+  recognition.onresult =
+    (event) => {
+
+      const transcript =
+
+        event.results[0][0]
+          .transcript;
+
+      setQuestion(transcript);
+
+      setListening(false);
+    };
+
+  recognition.onerror = () => {
+
+    setListening(false);
+  };
+
+  recognition.onend = () => {
+
+    setListening(false);
+  };
+};
   return (
 
     <div className="container py-4">
+<button
+  className="btn mb-4"
 
+  onClick={() =>
+    navigate(-1)
+  }
+
+  style={{
+
+    background:
+      "#1e293b",
+
+    color: "white",
+
+    border:
+      "1px solid rgba(255,255,255,0.12)",
+
+    borderRadius: "10px",
+
+    padding: "10px 18px",
+
+    fontWeight: "600",
+  }}
+>
+
+  ← Back
+
+</button>
       <h2 className="mb-4">
         AI Chat with PDF
       </h2>
@@ -292,7 +379,9 @@ typeMessage(
 
       {/* INPUT AREA */}
 
-      <div className="d-flex mt-3">
+      <div
+  className="d-flex mt-3 gap-2"
+>
 
         <input
   type="text"
@@ -331,38 +420,96 @@ style={{
 
   padding: "12px",
 }}
-/>
+        />
+       <button
 
-        <button
-          className="btn ms-2"
+  onClick={startListening}
 
-          onClick={sendQuestion}
+  style={{
 
-          disabled={loading}
-          style={{
+    width: "52px",
 
-  background:
-    "linear-gradient(90deg,#38bdf8,#2563eb)",
+    height: "52px",
 
-  color: darkMode
-  ? "white"
-  : "#111827",
+    borderRadius: "50%",
 
-  border: "none",
+    border: "none",
 
-  borderRadius: "12px",
+    background:
+      listening
 
-  fontWeight: "600",
+        ? "#dc2626"
 
-  padding: "10px 18px",
-}}
-        >
+        : "linear-gradient(90deg,#38bdf8,#2563eb)",
 
-          {loading
-            ? "Thinking..."
-            : "Send"}
+    color: "white",
 
-        </button>
+    display: "flex",
+
+    alignItems: "center",
+
+    justifyContent: "center",
+
+    fontSize: "20px",
+
+    boxShadow:
+      listening
+
+        ? "0 0 25px rgba(220,38,38,0.7)"
+
+        : "0 10px 25px rgba(37,99,235,0.35)",
+
+    transition: "0.3s ease",
+
+    flexShrink: 0,
+  }}
+>
+
+  <FaMicrophone />
+
+</button>
+
+       <button
+
+  onClick={sendQuestion}
+
+  disabled={loading}
+
+  style={{
+
+    width: "52px",
+
+    height: "52px",
+
+    borderRadius: "50%",
+
+    border: "none",
+
+    background:
+      "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+    color: "white",
+
+    display: "flex",
+
+    alignItems: "center",
+
+    justifyContent: "center",
+
+    fontSize: "18px",
+
+    boxShadow:
+      "0 10px 25px rgba(37,99,235,0.35)",
+
+    transition: "0.3s ease",
+
+    flexShrink: 0,
+  }}
+>
+
+  <FaPaperPlane />
+
+</button>
 
       </div>
 

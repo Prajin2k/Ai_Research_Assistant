@@ -1,8 +1,6 @@
 import { Link, useNavigate }
 from "react-router-dom";
-import {
-  useTheme,
-} from "../context/ThemeContext";
+
 function Navbar() {
   
   const navigate = useNavigate();
@@ -20,10 +18,7 @@ function Navbar() {
     navigate("/login");
     window.location.reload();
   };
-  const {
-  darkMode,
-  setDarkMode,
-} = useTheme();
+ 
 
   return (
 
@@ -43,7 +38,7 @@ function Navbar() {
       }}
     >
 
-      <div className="container-fluid">
+      <div className="container-fluid px-lg-4 px-2">
 
         {/* LOGO */}
 
@@ -75,7 +70,7 @@ function Navbar() {
         {/* RIGHT SIDE */}
 
        <div
-  className="d-flex align-items-center"
+ className="d-flex align-items-center flex-wrap"
   style={{
     gap: "18px",
   }}
@@ -122,11 +117,7 @@ function Navbar() {
 
             <>
   <span
-    className={`me-3 ${
-  darkMode
-    ? "text-white"
-    : "text-dark"
-}`}
+   className="me-3 text-white"
   >
 
     Welcome,
@@ -135,19 +126,6 @@ function Navbar() {
 
   </span>
 
-  {/* DARK MODE BUTTON */}
-
-  <button
-    className="btn me-2"
-
-    onClick={() =>
-      setDarkMode(!darkMode)
-    }
-  >
-
-    Dark Mode
-
-  </button>
 
   {/* LOGOUT BUTTON */}
 

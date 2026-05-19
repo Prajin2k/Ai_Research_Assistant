@@ -11,6 +11,13 @@ import ChatPage from "../pages/ChatPage";
 import Layout from "../components/Layout";
 import FilesPage from "../pages/FilesPage";
 import PreviewPage from "../pages/PreviewPage";
+import PrivateRoute
+from "../components/PrivateRoute";
+import FlashcardPage
+  from "../pages/FlashcardPage";
+  import SelectFilePage
+from "../pages/SelectFilePage";
+import FileDetailsPage from "../pages/FileDetailsPage";
 export default function AppRoutes() {
 
   return (
@@ -40,7 +47,19 @@ export default function AppRoutes() {
     </Layout>
   }
 />
+<Route
 
+  path="/select-file/:feature"
+
+  element={
+
+    <PrivateRoute>
+
+      <SelectFilePage />
+
+    </PrivateRoute>
+  }
+/>
 <Route
   path="/upload"
   element={
@@ -92,7 +111,14 @@ export default function AppRoutes() {
     </Layout>
   }
       />
-      
+      <Route
+  path="/flashcards/:id"
+  element={<FlashcardPage />}
+/>
+      <Route
+  path="/file/:id"
+  element={<FileDetailsPage />}
+/>
     </Routes>
   );
 }

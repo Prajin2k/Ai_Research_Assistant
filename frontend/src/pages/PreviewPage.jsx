@@ -3,11 +3,14 @@ import { useEffect, useState }
 from "react";
 
 import axios from "axios";
-
+import { useNavigate }
+from "react-router-dom";
 import { useParams }
 from "react-router-dom";
 
 function PreviewPage() {
+  const navigate =
+  useNavigate();
 
   const { id } = useParams();
 
@@ -83,7 +86,36 @@ function PreviewPage() {
 
   return (
 
-    <div className="container-fluid">
+    
+    <div className="container-fluid px-lg-4 px-2">
+    <button
+  className="btn mb-4"
+
+  onClick={() =>
+    navigate(-1)
+  }
+
+  style={{
+
+    background:
+      "#1e293b",
+
+    color: "white",
+
+    border:
+      "1px solid rgba(255,255,255,0.12)",
+
+    borderRadius: "10px",
+
+    padding: "10px 18px",
+
+    fontWeight: "600",
+  }}
+>
+
+  ← Back
+
+</button>
 
       <div className="mb-4">
 
@@ -131,7 +163,7 @@ function PreviewPage() {
 
       borderRadius: "12px",
 
-      padding: "14px 24px",
+      padding: "12px 20px",
 
       fontWeight: "600",
 
@@ -157,8 +189,10 @@ function PreviewPage() {
             className="img-fluid rounded shadow"
 
             style={{
-              maxHeight: "800px",
+              maxHeight: "80vh",
               objectFit: "contain",
+              width: "100%",
+              height: "auto",
             }}
           />
 

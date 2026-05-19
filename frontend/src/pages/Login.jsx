@@ -36,13 +36,55 @@ export default function Login() {
       JSON.stringify(data.user)
     );
 
-    toast.success("Login Successful");
+    toast.success(
+
+  "Login Successful 🚀",
+
+  {
+
+    style: {
+
+      background:
+        "#0f172a",
+
+      color: "white",
+      
+      border:
+        "1px solid rgba(56,189,248,0.25)",
+
+      borderRadius: "12px",
+
+      padding: "14px",
+    },
+  }
+);
 
     navigate("/dashboard");
     window.location.reload();
   } catch (error) {
 
-    alert(error.response.data.message);
+    toast.error(
+
+  error.response.data.message,
+
+  {
+
+    style: {
+
+      background:
+        "#0f172a",
+
+      color: "white",
+
+      border:
+        "1px solid rgba(239,68,68,0.25)",
+
+      borderRadius: "12px",
+
+      padding: "14px",
+    },
+  }
+);
   }
 };
   return (
@@ -87,7 +129,24 @@ export default function Login() {
 
           {/* RIGHT SIDE */}
 
-          <div className="col-lg-6 bg-dark text-white p-5 d-flex flex-column justify-content-center">
+          <div
+
+  className="col-lg-6 text-white p-5 d-flex flex-column justify-content-center"
+
+  style={{
+
+    background:
+      "rgba(15,23,42,0.72)",
+
+    backdropFilter:
+      "blur(18px)",
+
+    borderLeft:
+      "1px solid rgba(255,255,255,0.08)",
+
+    position: "relative",
+  }}
+>
 
             <h2 className="fw-bold display-6 mb-2">
               Welcome Back 👋
@@ -112,6 +171,40 @@ export default function Login() {
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
+                  onFocus={(e) => {
+
+  e.target.style.border =
+    "1px solid #38bdf8";
+
+  e.target.style.boxShadow =
+    "0 0 15px rgba(56,189,248,0.3)";
+}}
+
+onBlur={(e) => {
+
+  e.target.style.border =
+    "1px solid rgba(255,255,255,0.08)";
+
+  e.target.style.boxShadow =
+    "none";
+}}
+                  style={{
+
+  background:
+    "rgba(255,255,255,0.06)",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  color: "white",
+
+  padding: "14px",
+
+  borderRadius: "14px",
+
+  boxShadow:
+    "none",
+}}
                 />
 
               </div>
@@ -129,6 +222,40 @@ export default function Login() {
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
+                  onFocus={(e) => {
+
+  e.target.style.border =
+    "1px solid #38bdf8";
+
+  e.target.style.boxShadow =
+    "0 0 15px rgba(56,189,248,0.3)";
+}}
+
+onBlur={(e) => {
+
+  e.target.style.border =
+    "1px solid rgba(255,255,255,0.08)";
+
+  e.target.style.boxShadow =
+    "none";
+}}
+                  style={{
+
+  background:
+    "rgba(255,255,255,0.06)",
+
+  border:
+    "1px solid rgba(255,255,255,0.08)",
+
+  color: "white",
+
+  padding: "14px",
+
+  borderRadius: "14px",
+
+  boxShadow:
+    "none",
+}}
                 />
 
               </div>
@@ -136,6 +263,26 @@ export default function Login() {
               <button
                 type="submit"
                 className="auth-btn w-100"
+                style={{
+
+  background:
+    "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+  border: "none",
+
+  borderRadius: "14px",
+
+  padding: "14px",
+
+  fontWeight: "700",
+
+  color: "white",
+
+  boxShadow:
+    "0 0 25px rgba(56,189,248,0.3)",
+
+  transition: "0.3s",
+}}
               >
                 Login
               </button>

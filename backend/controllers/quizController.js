@@ -39,17 +39,34 @@ export const generateQuiz = async (
         role: "system",
 
         content: `
-        You are an AI quiz generator.
 
-        Generate clear MCQ questions
-        from study material.
+You are an AI quiz generator.
 
-        Rules:
-        - Generate exactly 5 questions
-        - Each question must have 4 options
-        - Mention correct answer clearly
-        - Keep answers concise
-        `,
+Generate exactly 5 MCQ questions.
+
+Return ONLY valid JSON.
+
+Format:
+
+[
+  {
+    "question": "Question here",
+    "options": [
+      "Option 1",
+      "Option 2",
+      "Option 3",
+      "Option 4"
+    ],
+    "answer": "Correct Option"
+  }
+]
+
+Rules:
+- No markdown
+- No explanation
+- No extra text
+- Only JSON
+`,
       },
 
       {
@@ -65,8 +82,12 @@ export const generateQuiz = async (
   });
 
     // GET QUIZ
-    const quiz =
-      completion.choices[0].message.content;
+    const quizText =
+  completion.choices[0]
+  .message.content;
+
+const quiz =
+  JSON.parse(quizText);
 
     res.status(200).json({
       quiz,

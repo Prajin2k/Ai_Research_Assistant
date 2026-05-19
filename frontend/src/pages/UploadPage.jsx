@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
-
+import { useNavigate }
+from "react-router-dom";
 function UploadPage() {
-
+  const navigate =
+  useNavigate();
   const [pdf, setPdf] = useState(null);
 
   const [loading, setLoading] =
@@ -36,8 +38,10 @@ function UploadPage() {
       formData.append("pdf", pdf);
 
       const token =
-        localStorage.getItem("token");
-
+  localStorage.getItem(
+    "token"
+  );
+console.log(token);
       const response = await axios.post(
 
         "http://localhost:5000/api/upload/pdf",
@@ -55,13 +59,21 @@ function UploadPage() {
           },
         }
       );
+const fileId =
 
+  response.data.upload._id;
       console.log(response.data);
 
       toast.success(
         "File Uploaded Successfully"
       );
+setTimeout(() => {
 
+  navigate(
+    `/file/${fileId}`
+  );
+
+}, 1000);
       setPdf(null);
 
       setLoading(false);
@@ -79,7 +91,34 @@ function UploadPage() {
   return (
 
     <div className="container py-5">
+<button
+  className="btn mb-4"
 
+  onClick={() =>
+    navigate(-1)
+  }
+
+  style={{
+
+    background:
+      "#1e293b",
+
+    color: "white",
+
+    border:
+      "1px solid rgba(255,255,255,0.12)",
+
+    borderRadius: "10px",
+
+    padding: "10px 18px",
+
+    fontWeight: "600",
+  }}
+>
+
+  ← Back
+
+</button>
       <div
         className="shadow-lg border-0 p-4"
         style={{

@@ -25,7 +25,7 @@ function Layout({ children }) {
 
   return (
 
-    <div className="container-fluid">
+    <div className="container-fluid px-lg-4 px-2">
 
       <div className="row">
 <button
@@ -89,7 +89,8 @@ borderRight:
       "text",
 
     WebkitTextFillColor:
-      "transparent",
+                  "transparent",
+     fontSize: "clamp(1.3rem,4vw,2rem)",
   }}
 >
 
@@ -175,8 +176,10 @@ boxShadow:
   style={{
 
     background:
-      "linear-gradient(135deg,#020617,#0f172a,#111827)",
+        "linear-gradient(135deg,#020617,#0f172a,#111827)",
+backgroundSize: "cover",
 
+backgroundAttachment: "fixed",
     color: "white",
 
     minHeight: "100vh",
