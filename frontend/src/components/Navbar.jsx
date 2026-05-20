@@ -95,13 +95,19 @@ function Navbar({ setSidebarOpen }) {
 
         {/* RIGHT SIDE */}
 
-      <div
+     <div
   className="
     d-flex
-    align-items-center
+    flex-column
+    flex-md-row
+    align-items-start
+    align-items-md-center
     justify-content-end
     ms-auto
-    gap-3
+    gap-2
+    gap-md-3
+    mt-2
+    mt-md-0
   "
 >
 
@@ -148,9 +154,13 @@ function Navbar({ setSidebarOpen }) {
           ) : (
 
             <>
-  <span
-   className="me-3 text-white"
-  >
+ <span
+ className="text-white"
+ style={{
+   fontSize: "14px",
+   wordBreak: "break-word",
+ }}
+>
 
     Welcome,
     {" "}

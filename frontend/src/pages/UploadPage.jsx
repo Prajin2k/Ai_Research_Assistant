@@ -92,7 +92,7 @@ setTimeout(() => {
 
     <div className="container py-5">
 <button
-  className="btn mb-4"
+  className="btn mb-4 back-btn"
 
   onClick={() =>
     navigate(-1)

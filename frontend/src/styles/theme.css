@@ -47,10 +47,9 @@ body {
     font-size: 1.5rem !important;
   }
 
-  .btn {
-
-    width: 100%;
-  }
+  .btn-full {
+  width: 100%;
+}
 }
 .sidebar-container {
   width: 260px;
@@ -87,5 +86,15 @@ body {
     z-index: 1000;
     transform: translateX(-100%);
     display: flex !important;
+  }
+}.back-btn {
+  width: auto !important;
+}
+
+@media (max-width: 768px) {
+  .back-btn {
+    width: auto !important;
+    display: inline-flex;
+    align-items: center;
   }
 }
