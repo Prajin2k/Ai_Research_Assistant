@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 // AI SUMMARY
-router.get(
+router.post(
   "/summary/:id",
   generateSummary
 );

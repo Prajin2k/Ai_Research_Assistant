@@ -16,7 +16,17 @@ export const uploadPDF = async (
   try {
 
     const file = req.file;
+    if (
+  file.size >
+  50 * 1024 * 1024
+) {
 
+  return res.status(400).json({
+
+    message:
+      "PDF size must be below 50MB",
+  });
+}
     let extractedText = "";
 
     let fileType = "";

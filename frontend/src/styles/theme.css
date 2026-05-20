@@ -52,3 +52,40 @@ body {
     width: 100%;
   }
 }
+.sidebar-container {
+  width: 260px;
+  min-height: 100vh;
+  background: linear-gradient(180deg,#020617,#0f172a);
+  transition: transform 0.3s ease;
+}
+
+/* DESKTOP */
+@media (min-width: 769px) {
+  .sidebar-container {
+    position: relative;
+    transform: translateX(0);
+    display: flex !important;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .sidebar-open {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transform: translateX(0);
+    display: flex !important;
+  }
+
+  .sidebar-close {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transform: translateX(-100%);
+    display: flex !important;
+  }
+}

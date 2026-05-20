@@ -1,19 +1,25 @@
 export const chunkText = (
   text,
-  chunkSize = 1000
+  chunkSize = 6000
 ) => {
 
   const chunks = [];
 
-  for (
-    let i = 0;
-    i < text.length;
-    i += chunkSize
+  let index = 0;
+
+  while (
+    index < text.length
   ) {
 
     chunks.push(
-      text.slice(i, i + chunkSize)
+
+      text.slice(
+        index,
+        index + chunkSize
+      )
     );
+
+    index += chunkSize;
   }
 
   return chunks;

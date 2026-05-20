@@ -1,7 +1,13 @@
-import { Link, useNavigate }
-from "react-router-dom";
+import {
+  Link,
+  useNavigate
+} from "react-router-dom";
+import { FaBars } from "react-icons/fa";
+import {
+  useState
+} from "react";
 
-function Navbar() {
+function Navbar({ setSidebarOpen }) {
   
   const navigate = useNavigate();
 
@@ -42,10 +48,30 @@ function Navbar() {
 
         {/* LOGO */}
 
-        <Link
-          className="navbar-brand fw-bold"
-          to="/dashboard"
-        >
+       <div className="d-flex align-items-center gap-3">
+
+  <button
+    className="btn d-md-none"
+    onClick={() => setSidebarOpen(true)}
+   style={{
+  borderRadius: "12px",
+  width: "45px",
+  height: "45px",
+  border: "1px solid rgba(255,255,255,0.08)",
+  background: "rgba(255,255,255,0.05)",
+  color: "white",
+  backdropFilter: "blur(10px)",
+}}
+  >
+
+    <FaBars />
+
+  </button>
+
+  <Link
+    className="navbar-brand fw-bold mb-0"
+    to="/dashboard"
+  >
 
          <span
   style={{
@@ -65,16 +91,22 @@ function Navbar() {
 
 </span>
 
-        </Link>
+        </Link></div>
 
         {/* RIGHT SIDE */}
 
-       <div
- className="d-flex align-items-center flex-wrap"
-  style={{
-    gap: "18px",
-  }}
+      <div
+  className="
+    d-flex
+    align-items-center
+    justify-content-end
+    ms-auto
+    gap-3
+  "
 >
+
+ 
+
 
           {!userInfo ? (
 

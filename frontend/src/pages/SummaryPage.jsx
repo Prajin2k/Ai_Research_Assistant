@@ -22,6 +22,13 @@ setLanguage] =
   useState("English");
   const [loading, setLoading] =
     useState(true);
+  const [progress,
+setProgress] =
+  useState(0);
+
+const [status,
+setStatus] =
+  useState("Preparing AI analysis...");
 const downloadPDF = () => {
 
   const doc = new jsPDF();
@@ -290,35 +297,97 @@ useEffect(() => {
           localStorage.getItem(
             "token"
           );
+const historyResponse =
+  await axios.get(
 
-        const response =
-          await axios.get(
+    "http://localhost:5000/api/history",
 
-            "http://localhost:5000/api/history",
+    {
+      headers: {
 
-            {
-              headers: {
+        Authorization:
+          `Bearer ${token}`,
+      },
+    }
+  );
 
-                Authorization:
-                  `Bearer ${token}`,
-              },
-            }
-          );
+let selectedFile =
 
-        const selectedFile =
-          response.data.find(
-            (item) =>
-              item._id === id
-          );
+  historyResponse.data.find(
+    (item) =>
+      item._id === id
+  );
+
+if (
+  selectedFile &&
+  !selectedFile.summary
+) {
+
+  setStatus(
+    "Generating AI summary..."
+  );
+
+  setProgress(30);
+
+  await axios.post(
+
+    `http://localhost:5000/api/ai/summary/${id}`,
+
+    {},
+
+    {
+      headers: {
+
+        Authorization:
+          `Bearer ${token}`,
+      },
+    }
+  );
+
+  setStatus(
+    "Finalizing summary..."
+  );
+
+  setProgress(80);
+
+  // FETCH UPDATED DATA
+
+  const updatedResponse =
+    await axios.get(
+
+      "http://localhost:5000/api/history",
+
+      {
+        headers: {
+
+          Authorization:
+            `Bearer ${token}`,
+        },
+      }
+    );
+
+ 
+  selectedFile =
+
+    updatedResponse.data.find(
+      (item) =>
+        item._id === id
+    );
+}
+
 
         console.log(selectedFile);
 
         if (selectedFile) {
 
           setSummary(
-            selectedFile.aiNotes
+            selectedFile.summary
           );
+setProgress(100);
 
+setStatus(
+  "Summary Ready 🚀"
+);
         } else {
 
           setSummary(
@@ -483,7 +552,72 @@ useEffect(() => {
 
       {loading ? (
 
-        <h5>Loading Summary...</h5>
+        <div
+  className="text-center py-5"
+>
+
+  <h3
+    className="text-white mb-4"
+  >
+
+    AI is analyzing your PDF 🚀
+
+  </h3>
+
+  <div
+    style={{
+
+      height: "14px",
+
+      background:
+        "rgba(255,255,255,0.08)",
+
+      borderRadius: "20px",
+
+      overflow: "hidden",
+
+      maxWidth: "500px",
+
+      margin: "auto",
+    }}
+  >
+
+    <div
+
+      style={{
+
+        width:
+          `${progress}%`,
+
+        height: "100%",
+
+        background:
+          "linear-gradient(90deg,#38bdf8,#2563eb)",
+
+        transition:
+          "0.4s",
+      }}
+    />
+  </div>
+
+  <p
+    className="text-info mt-4"
+  >
+
+    {status}
+
+  </p>
+
+  <p
+    className="text-secondary"
+  >
+
+    Large PDFs may take
+    1–3 minutes
+
+  </p>
+
+</div>
 
       ) : (
 

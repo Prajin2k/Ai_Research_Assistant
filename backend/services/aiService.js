@@ -7,20 +7,21 @@ export const generateAISummary = async (
   const completion =
     await client.chat.completions.create({
 
-      model: "llama-3.3-70b-versatile",
+      model: "llama-3.1-8b-instant",
 
       messages: [
         {
           role: "user",
 
           content: `
-          Summarize this study material
-          in simple bullet points:
-
+Summarize only the most important concepts, headings, and key ideas from this text in concise bullet points.
           ${text}
           `,
         },
       ],
+      max_tokens: 300,
+
+temperature: 0.3,
     });
 
   return completion

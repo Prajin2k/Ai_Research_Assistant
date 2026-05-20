@@ -1,6 +1,7 @@
 import { Link, useLocation }from "react-router-dom";
 import Navbar from "./Navbar";
 import { useState } from "react";
+
 import {  useTheme,} from "../context/ThemeContext";
 function Layout({ children }) {
     const { darkMode } =useTheme();
@@ -27,30 +28,34 @@ function Layout({ children }) {
 
     <div className="container-fluid px-lg-4 px-2">
 
-      <div className="row">
-<button
-  className="btn btn-dark d-md-none m-3"
+      <div className="d-flex">
+        {sidebarOpen && (
+  <div
+    onClick={() => setSidebarOpen(false)}
+    style={{
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      background: "rgba(0,0,0,0.4)",
+      zIndex: 999,
+    }}
+  />
+)}
 
-  onClick={() =>
-    setSidebarOpen(!sidebarOpen)
-  }
->
-
-  ☰ Menu
-
-</button>
         {/* SIDEBAR */}
 
-       <div
+     <div
   className={`
-    col-md-2
+    sidebar-container
     flex-column
     p-4
 
     ${
       sidebarOpen
-        ? "d-flex"
-        : "d-none d-md-flex"
+        ? "sidebar-open"
+        : "sidebar-close"
     }
   `}
   style={{
@@ -113,7 +118,7 @@ borderRight:
 
                 <Link
                   to={item.path}
-
+              onClick={() => setSidebarOpen(false)}
                className="nav-link fw-semibold"
 
                   style={{
@@ -155,6 +160,7 @@ boxShadow:
 
           </ul>
 
+
           {/* FOOTER */}
 
           <div className="mt-auto text-secondary">
@@ -172,7 +178,7 @@ boxShadow:
         {/* MAIN CONTENT */}
 
        <div
-  className="col p-4"
+ className="flex-grow-1 p-4"
   style={{
 
     background:
@@ -186,7 +192,7 @@ backgroundAttachment: "fixed",
   }}
 >
 
-          <Navbar />
+         <Navbar setSidebarOpen={setSidebarOpen} />
 
 <div className="mt-4">
 
